@@ -23,13 +23,29 @@
 </template>
 
 <script>
-import { departments, staffMemberOfDepartment } from '../lib'
+import { departments, staffMemberOfDepartment } from "../lib";
+
+// formstack uses react, this function is now required to have react see the changes to the input's value
+function changeValue(input, value) {
+  const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
+    window[input.constructor.name].prototype,
+    "value"
+  ).set;
+
+  nativeInputValueSetter.call(input, value);
+
+  const inputEvent = new Event("input", {
+    bubbles: true,
+  });
+
+  input.dispatchEvent(inputEvent);
+}
 
 export default {
   props: {
     label: {
       type: String,
-      default: 'Department',
+      default: "Department",
     },
     required: {
       type: Boolean,
@@ -37,7 +53,7 @@ export default {
     },
     selectClass: {
       type: String,
-      default: 'form-control',
+      default: "form-control iMPvJX  fsFieldSelect",
     },
     departmentInputId: {
       type: String,
@@ -51,7 +67,7 @@ export default {
   },
 
   setup() {
-    return { departments }
+    return { departments };
   },
 
   data: () => ({
@@ -60,29 +76,35 @@ export default {
 
   computed: {
     selectedDepartment() {
-      return departments.data.find((x) => x.id == this.selectedDepartmentId)
+      return departments.data.find((x) => x.id == this.selectedDepartmentId);
     },
   },
 
   methods: {
     detectSelection() {
       if (this.departmentInputId) {
-        document.getElementById(this.departmentInputId).value =
+        changeValue(
+          document.getElementById(this.departmentInputId),
           this.selectedDepartment?.fields?.Name || null
+        );
       }
       if (this.prsEmailInputId) {
-        document.getElementById(this.prsEmailInputId).value =
-          staffMemberOfDepartment(this.selectedDepartmentId, 'PRS')?.fields
+        changeValue(
+          document.getElementById(this.prsEmailInputId),
+          staffMemberOfDepartment(this.selectedDepartmentId, "PRS")?.fields
             ?.Email || null
+        );
       }
       if (this.mrsEmailInputId) {
-        document.getElementById(this.mrsEmailInputId).value =
-          staffMemberOfDepartment(this.selectedDepartmentId, 'MRS')?.fields
+        changeValue(
+          document.getElementById(this.mrsEmailInputId),
+          staffMemberOfDepartment(this.selectedDepartmentId, "MRS")?.fields
             ?.Email || null
+        );
       }
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped></style>
