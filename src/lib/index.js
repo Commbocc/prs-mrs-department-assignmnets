@@ -2,7 +2,7 @@ import { computed, reactive } from 'vue'
 import axios from 'axios'
 
 export const airtable = axios.create({
-  baseURL: 'https://hc-caching-proxy.herokuapp.com/airtable/app0NLfFdNXwgtMpY',
+  baseURL: 'https://hc-airtable-caching-proxy.netlify.app/api/v1/airtable/app0NLfFdNXwgtMpY',
 })
 
 export const staff = reactive({
