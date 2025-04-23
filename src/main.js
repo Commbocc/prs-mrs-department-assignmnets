@@ -1,10 +1,12 @@
 import { createApp } from 'vue'
 import { fetchAll } from './lib'
+import { trackWithLoggly } from './lib/loggly'
 
 import SelectFieldComponent from './components/SelectField.vue'
 import StaffTableComponent from './components/StaffTable.vue'
 
 fetchAll()
+trackWithLoggly()
 
 export const SelectField = (props = {}) =>
   createApp(SelectFieldComponent, props)
